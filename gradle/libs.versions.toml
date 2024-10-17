@@ -14,7 +14,7 @@ jackson = "2.18.0"
 versionsPlugin = "0.51.0"
 dokkaPlugin = "1.9.20"
 
-anthropicSdkKotlin = "0.3.1"
+anthropicSdkKotlin = "0.4.0"
 
 [libraries]
 anthropic-sdk-kotlin = { module = "com.xemantic.anthropic:anthropic-sdk-kotlin", version.ref = "anthropicSdkKotlin" }

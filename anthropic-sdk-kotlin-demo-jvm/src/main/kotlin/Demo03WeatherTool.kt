@@ -4,6 +4,7 @@ import com.xemantic.anthropic.Anthropic
 import com.xemantic.anthropic.message.Message
 import com.xemantic.anthropic.message.ToolResult
 import com.xemantic.anthropic.message.ToolUse
+import com.xemantic.anthropic.message.plusAssign
 import com.xemantic.anthropic.tool.AnthropicTool
 import com.xemantic.anthropic.tool.UsableTool
 import kotlinx.coroutines.runBlocking
@@ -37,7 +38,7 @@ fun main() = runBlocking {
   println("Initial response:")
   println(initialResponse)
 
-  conversation += initialResponse.asMessage()
+  conversation += initialResponse
   val tool = initialResponse.content.filterIsInstance<ToolUse>().first()
   val toolResult = tool.use()
   conversation += Message { +toolResult }
