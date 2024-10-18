@@ -4,6 +4,7 @@ import com.xemantic.anthropic.Anthropic
 import com.xemantic.anthropic.message.Message
 import com.xemantic.anthropic.message.ToolResult
 import com.xemantic.anthropic.message.ToolUse
+import com.xemantic.anthropic.schema.Description
 import com.xemantic.anthropic.tool.AnthropicTool
 import com.xemantic.anthropic.tool.UsableTool
 import kotlinx.coroutines.runBlocking
@@ -11,10 +12,10 @@ import kotlinx.coroutines.runBlocking
 /**
  * IT's a minimal example which can promote `anthropic-sdk-kotlin` library.
  */
-@AnthropicTool(
-  name = "Fibonacci",
-  description = "Calculates Fibonacci number n"
-)
+
+
+@AnthropicTool("Fibonacci")
+@Description("Calculates Fibonacci number n")
 data class FibonacciTool(val n: Int) : UsableTool {
   override suspend fun use(toolUseId: String) = ToolResult(
     toolUseId, text = "${fibonacci(n)}"

@@ -6,14 +6,13 @@ import com.xemantic.anthropic.message.Text
 import com.xemantic.anthropic.message.ToolResult
 import com.xemantic.anthropic.message.ToolUse
 import com.xemantic.anthropic.message.plusAssign
+import com.xemantic.anthropic.schema.Description
 import com.xemantic.anthropic.tool.AnthropicTool
 import com.xemantic.anthropic.tool.UsableTool
 import kotlinx.coroutines.runBlocking
 
-@AnthropicTool(
-  name = "Calculator",
-  description = "Calculates the arithmetic outcome of an operation when given the arguments a and b"
-)
+@AnthropicTool("Calculator")
+@Description("Calculates the arithmetic outcome of an operation when given the arguments a and b")
 data class Calculator(
   val operation: Operation,
   val a: Double,

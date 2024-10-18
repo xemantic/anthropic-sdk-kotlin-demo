@@ -2,6 +2,7 @@ package com.xemantic.anthropic.demo
 
 import com.xemantic.anthropic.Anthropic
 import com.xemantic.anthropic.message.*
+import com.xemantic.anthropic.schema.Description
 import com.xemantic.anthropic.tool.AnthropicTool
 import com.xemantic.anthropic.tool.UsableTool
 import kotlinx.coroutines.runBlocking
@@ -14,10 +15,8 @@ import kotlinx.serialization.Serializable
  * I wanted to try out the same approach with Anthropic API, and it seems like a great test case
  * for anthropic-sdk-kotlin.
  */
-@AnthropicTool(
-  name = "DisclosureReport",
-  description = "Extract the text from this image"
-)
+@AnthropicTool("DisclosureReport")
+@Description("Extract the text from this image")
 data class DisclosureReport(
   val assets: List<Asset>
 ) : UsableTool {

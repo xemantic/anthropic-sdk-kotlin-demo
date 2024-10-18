@@ -4,16 +4,15 @@ import com.xemantic.anthropic.Anthropic
 import com.xemantic.anthropic.message.Message
 import com.xemantic.anthropic.message.ToolResult
 import com.xemantic.anthropic.message.ToolUse
+import com.xemantic.anthropic.schema.Description
 import com.xemantic.anthropic.tool.AnthropicTool
 import com.xemantic.anthropic.tool.UsableTool
 import kotlinx.coroutines.runBlocking
 import java.sql.Connection
 import java.sql.DriverManager
 
-@AnthropicTool(
-  name = "query_database",
-  description = "Executes SQL on the database"
-)
+@AnthropicTool("query_database")
+@Description("Executes SQL on the database")
 data class DatabaseQueryTool(val sql: String): UsableTool {
 
   internal lateinit var connection: Connection
