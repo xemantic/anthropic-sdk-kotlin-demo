@@ -1,10 +1,12 @@
 package com.xemantic.anthropic.demo
 
 import com.xemantic.anthropic.Anthropic
+import com.xemantic.anthropic.content.Image
+import com.xemantic.anthropic.content.ToolUse
 import com.xemantic.anthropic.message.*
 import com.xemantic.anthropic.schema.Description
 import com.xemantic.anthropic.tool.AnthropicTool
-import com.xemantic.anthropic.tool.UsableTool
+import com.xemantic.anthropic.tool.ToolInput
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 
@@ -19,11 +21,7 @@ import kotlinx.serialization.Serializable
 @Description("Extract the text from this image")
 data class DisclosureReport(
   val assets: List<Asset>
-) : UsableTool {
-  override suspend fun use(toolUseId: String) = ToolResult(
-    toolUseId, "Data provided to client"
-  )
-}
+) : ToolInput()
 
 @Serializable
 data class Asset(
@@ -40,19 +38,15 @@ data class Asset(
 
 fun main() = runBlocking {
 
-  val client = Anthropic {
+  val anthropic = Anthropic {
     tool<DisclosureReport>()
   }
 
-  val response = client.messages.create {
+  val response = anthropic.messages.create {
     +Message {
-      +"Decode structured output from supplied image"
-      +Image(
-        path = "data/financial-disclosure-report.png",
-        mediaType = Image.MediaType.IMAGE_PNG
-      )
+      +Image("data/financial-disclosure-report.png")
     }
-    useTool<DisclosureReport>()
+    singleTool<DisclosureReport>()
   }
 
   val tool = response.content.filterIsInstance<ToolUse>().first()

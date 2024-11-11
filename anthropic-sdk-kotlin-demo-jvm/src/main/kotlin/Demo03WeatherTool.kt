@@ -1,24 +1,22 @@
 package com.xemantic.anthropic.demo
 
 import com.xemantic.anthropic.Anthropic
+import com.xemantic.anthropic.content.ToolUse
 import com.xemantic.anthropic.message.Message
-import com.xemantic.anthropic.message.ToolResult
-import com.xemantic.anthropic.message.ToolUse
 import com.xemantic.anthropic.message.plusAssign
 import com.xemantic.anthropic.schema.Description
 import com.xemantic.anthropic.tool.AnthropicTool
-import com.xemantic.anthropic.tool.UsableTool
+import com.xemantic.anthropic.tool.ToolInput
 import kotlinx.coroutines.runBlocking
 
 @AnthropicTool("get_weather")
 @Description("Get the weather for a specific location")
-data class WeatherTool(val location: String): UsableTool {
-  override suspend fun use(
-    toolUseId: String
-  ) = ToolResult(
-    toolUseId,
-    "The weather is 73f" // it should use some external service
-  )
+data class WeatherTool(val location: String): ToolInput() {
+  init {
+    use {
+      "The weather is 73f" // it should use some external service
+    }
+  }
 }
 
 fun main() = runBlocking {
@@ -32,7 +30,7 @@ fun main() = runBlocking {
 
   val initialResponse = client.messages.create {
     messages = conversation
-    useTools()
+    singleTool<WeatherTool>()
   }
   println("Initial response:")
   println(initialResponse)
@@ -44,7 +42,7 @@ fun main() = runBlocking {
 
   val finalResponse = client.messages.create {
     messages = conversation
-    useTools()
+    allTools()
   }
   println("Final response:")
   println(finalResponse)
